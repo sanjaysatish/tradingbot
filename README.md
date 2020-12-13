@@ -17,7 +17,7 @@
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/pulls)
   ![Authors](https://img.shields.io/badge/authors-%40sanjaysatish%2C%20%40bryantong23%2C%20%40justinzhao88%2C%20%40r1t1kg0yal-informational%20?style=for-the-badge&logo=appveyor)
 
-need to fix authors and pull requests and issues 
+need to fix authors and pull requests and issues badges
 
 </div>
 
@@ -121,18 +121,22 @@ End with an example of getting some data out of the system or using it for a lit
 ## 🚀 Deploying your own bot <a name = "deployment"></a>
 To see an example project on how to deploy your bot, please see my own configuration:
 
-+ **Heroku**: https://github.com/kylelobo/Reddit-Bot#deploying_the_bot
++ **Placeholder**: https://github.com/kylelobo/Reddit-Bot#deploying_the_bot
 
 ## ⛏️ Built Using <a name = "built_using"></a>
-+ [PRAW](https://praw.readthedocs.io/en/latest/) - Python Reddit API Wrapper
-+ [Heroku](https://www.heroku.com/) - SaaS hosting platform
++ [Placeholder](https://praw.readthedocs.io/en/latest/) - Edit this hyperlink for API
++ [Placeholder](https://www.heroku.com/) - Edit this 
++ Python
++ R
 
 ## ✍️ Authors <a name = "authors"></a>
-+ [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
-
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
++ [@sanjaysatish](https://github.com/sanjaysatish) 
++ [@bryantong23](https://github.com/bryantong23) 
++ [@justinzhao88](https://github.com/justinzhao88) 
++ [@r1t1kg0yal](https://github.com/r1t1kg0yal) 
+See also the list of [contributors](https://github.com/sanjaysatish/tradingbot/contributors) who participated in this project.
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-+ Hat tip to anyone whose code was used
++ Thanks to [@kylelobo](https://github.com/kylelobo) for the template via the documentation compendium
 + Inspiration
 + References
