@@ -14,12 +14,6 @@
   [![Status](https://img.shields.io/badge/Status-Active-988189)]()
   ![Languages](https://img.shields.io/badge/Languages-R%2C%20Python-8CBEB2)
   ![GitHub issues](https://img.shields.io/github/issues/sanjaysatish/tradingbot?color=f2ebbf)
-  
-  [![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/issues)
-  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/pulls)
-  
-  ![GitHub pull requests](https://img.shields.io/github/issues-pr/sanjaysatish/tradingbot?color=F3b562)
-  
   ![GitHub pull requests](https://img.shields.io/github/issues-pr/sanjaysatish/tradingbot?color=F3b562)
   
   ![Authors](https://img.shields.io/badge/Authors-%40sanjaysatish%2C%20%40bryantong23%2C%20%40justinzhao88%2C%20and%20%40r1t1kg0yal-F06060?style=for-the-badge&logo=appveyor?)
