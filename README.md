@@ -17,6 +17,8 @@
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/pulls)
   ![Authors](https://img.shields.io/badge/authors-%40sanjaysatish%2C%20%40bryantong23%2C%20%40justinzhao88%2C%20%40r1t1kg0yal-informational%20?style=for-the-badge&logo=appveyor)
 
+need to fix authors and pull requests and issues 
+
 </div>
 
 ---
