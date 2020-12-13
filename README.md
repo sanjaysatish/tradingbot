@@ -136,6 +136,6 @@ To see an example project on how to deploy your bot, please see my own configura
 See also the list of [contributors](https://github.com/sanjaysatish/tradingbot/contributors) who participated in this project.
 
 ## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-+ Thanks to [@kylelobo](https://github.com/kylelobo) for the template via the documentation compendium
++ Thanks to [@kylelobo](https://github.com/kylelobo) for the markdown template via the documentation compendium
 + Inspiration
 + References
