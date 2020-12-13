@@ -6,6 +6,8 @@
  <img width=200px height=200px src="https://i.imgur.com/FxL5qM0.jpg" alt="Bot logo"></a>
 </p>
 
+placeholder text 
+
 <h3 align="center">An ongoing project to develop a trading bot</h3>
 
 <div align="center">
