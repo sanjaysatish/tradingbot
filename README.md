@@ -13,7 +13,7 @@
 
   [![Status](https://img.shields.io/badge/Status-Active-988189)]()
   ![Languages](https://img.shields.io/badge/Languages-R%2C%20Python-8CBEB2)
-  ![GitHub issues](https://img.shields.io/github/issues/sanjaysatish/tradingbot?color=f2ebbf&logoColor=f2ebbf)
+  ![GitHub issues](https://img.shields.io/github/issues/sanjaysatish/tradingbot?color=f2ebbf)
   
   [![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/issues)
   [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/sanjaysatish/tradingbot/pulls)
