@@ -11,7 +11,7 @@
 
 <div align="center">
 
-  [![Status](https://img.shields.io/badge/Status-Active-988189]()
+  [![Status](https://img.shields.io/badge/Status-Active-988189)]()
   ![Languages](https://img.shields.io/badge/Languages-R%2C%20Python-8CBEB2)
   ![GitHub issues](https://img.shields.io/github/issues/sanjaysatish/tradingbot?color=f2ebbf&logoColor=f2ebbf)
   
