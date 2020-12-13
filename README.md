@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/FxL5qM0.jpg" alt="Bot logo"></a>
+ <img width=200px height=200px src="https://github.com/sanjaysatish/tradingbot/blob/main/web-browser.png" alt="Bot logo"></a>
 </p>
 
 placeholder text 
