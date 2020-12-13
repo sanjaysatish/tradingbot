@@ -1,5 +1,4 @@
 # tradingbot
-Ongoing project to develop a trading bot
 ---
 
 <p align="center">
@@ -7,7 +6,7 @@ Ongoing project to develop a trading bot
  <img width=200px height=200px src="https://i.imgur.com/FxL5qM0.jpg" alt="Bot logo"></a>
 </p>
 
-<h3 align="center">Bot Name</h3>
+<h3 align="center">An ongoing project to develop a trading bot</h3>
 
 <div align="center">
 
