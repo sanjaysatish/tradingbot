@@ -1,5 +1,4 @@
 # tradingbot
----
 
 <p align="center">
   <a href="" rel="noopener">
@@ -17,8 +16,6 @@
   ![GitHub pull requests](https://img.shields.io/github/issues-pr/sanjaysatish/tradingbot?color=F3b562)
   
   ![Authors](https://img.shields.io/badge/Authors-%40sanjaysatish%2C%20%40bryantong23%2C%20%40justinzhao88%2C%20and%20%40r1t1kg0yal-F06060?style=flat&logo=appveyor?)
-
-need to fix pull requests and issues badges
 
 </div>
 
