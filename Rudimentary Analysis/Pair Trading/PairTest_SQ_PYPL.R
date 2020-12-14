@@ -141,7 +141,7 @@ ft2<-function(x){
 
 Pval <- function(x){
   
-  Augmented.df <- rollapply(x, 14, ft2)
+  Augmented.df <- rollapply(x, width = 14, ft2)
   colnames(Augmented.df) <- "P.Value"
   Augmented.df
 }
@@ -156,8 +156,7 @@ add.indicator(strategy = qs.strategy, name = "Pval", arguments =
 
 # Plotting Time Series of Z Score 
 x = merge(PriceRatio,Price.Ratio.MA,Price.Ratio.SD) 
-df <- tail(x, -13)
-Z.Score <- ZScore(df)
+Z.Score <- ZScore(x)
 plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
 abline(h = .25, col = 2, lwd = 3 ,lty = 2)
 abline(h = -.25, col = 3, lwd = 3 ,lty = 2)
