@@ -19,4 +19,6 @@ Assuming both conditions are met then the algorithm will long the ticker indicat
 
 The following hypothesis test is calculated using the Augmented Dickey Fuller test - useing a significance level of 0.05 when calculating p-vales.
 
+### Analysis
+
 ## Add stuff here to keep track of stuff
