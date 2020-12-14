@@ -13,6 +13,8 @@ library(dplyr)
 library(quantstrat)
 library(tseries)
 library(PerformanceAnalytics)
+library(FinancialInstrument)
+
 
 #===================
 # Getting Data:
@@ -42,7 +44,8 @@ spread <- OHLC(SQ)-OHLC(PYPL)
 colnames(spread)<-c("open","high","low","close")
 
 symbols <- c("spread")
-stock(symbols, currency = 'USD', multiplier = 1)
+currency("USD")
+stock(symbols, currency = "USD", multiplier = 1)
 
 chart <- chart_Series(spread)
 
@@ -50,8 +53,6 @@ chart <- chart_Series(spread)
 add_TA(EMA(Cl(spread), n=20), on=1, col="blue", lwd=1.5)
 legend(x=5, y=50, legend=c("EMA 20"),
        fill=c("blue"), bty="n")
-# View Plot
-chart 
 
 #===================
 # Initializing strategy:
@@ -63,7 +64,7 @@ chart
 .strategy <- new.env()
 
 # Assume starting on 01/02/2020 w/ $1000 in initial equity
-startdate = '2020-01-02'
+startdate = '2015-11-19'
 startequity = 1000
 
 qs.strategy <- 'pair.SQPYPL'
@@ -76,7 +77,7 @@ initOrders(qs.strategy,initDate=startdate)
 # Save 
 strategy(qs.strategy, store = TRUE)
 
-#rm.strat(pair.SQPYPL) 
+#rm.strat('pair.SQPYPL') 
 
 ls(.blotter)
 
@@ -121,7 +122,7 @@ Price.Ratio.SD <- sd(PriceRatio)
 # Inputs: Df with Ratio/MA/SD
 
 ZScore <- function(df){
-  x_i <- df$PriceRatio
+  x_i <- df$Price.Ratio
   mu <- df$Price.Ratio.MA
   sigma <- df$Price.Ratio.SD
   
@@ -154,30 +155,29 @@ add.indicator(strategy = qs.strategy, name = "Pval", arguments =
 
 # Plotting Time Series of Z Score 
 x = merge(PriceRatio,Price.Ratio.MA,Price.Ratio.SD) 
-x <- tail(x, -13)
-Z.Score <- ZScore(x)
+df <- tail(x, -13)
+Z.Score <- ZScore(df)
 PlotZ <- plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
-abline(h = 2, col = 2, lwd = 3 ,lty = 2)
-abline(h = -2, col = 3, lwd = 3 ,lty = 2)
+abline(h = .25, col = 2, lwd = 3 ,lty = 2)
+abline(h = -.25, col = 3, lwd = 3 ,lty = 2)
 
-# View
 PlotZ
-
 #===================
 # Optimization:
 #===================
-alpha = 1 # We set it to 0.1 if we want a 10% significance level. If we want to set the ADF test (second condition)
-#off, we just change it to "1", in that case the p-value will always be lower than the significance level and the # and the strategy will not require the pair to be cointegrated.
-# Z-Score entry and exit thresholds:
+# Set significance level, set this to 1 if we want to disregard hypothesis testing
+alpha = 1 
 
-buyThresh = -2
+# Setting relatively arbitrary entry and exit levels based on Z-score chart:
+
+buyThresh = -.5
 sellThresh = -buyThresh
-exitlong = 1
-exitshort = 1
+exitlong = .25
+exitshort = .25
 
-#Before running our backtest, we have to add the signals, position limits and rules of our strategy:
+# Add signals, position limits, and rules for strategy:
   
-  add.signal(qs.strategy, name="sigThreshold",arguments=list(column="Z.Score", threshold=buyThresh,
+add.signal(qs.strategy, name="sigThreshold",arguments=list(column="Z.Score", threshold=buyThresh,
                                                              relationship="lt", cross=FALSE),label="longEntryZ")
 
 add.signal(qs.strategy, name="sigThreshold",arguments=list(column="P.Value", threshold= alpha,
@@ -201,7 +201,7 @@ add.signal(qs.strategy, name="sigThreshold",arguments=list(column="Z.Score", thr
 
 addPosLimit( portfolio = qs.strategy, # add position limit rules
              symbol = 'spread',
-             timestamp = initDate,
+             timestamp = startdate,
              maxpos = 3000,
              longlevels = 1,
              minpos = -3000)
@@ -229,11 +229,11 @@ summary(get.strategy(qs.strategy))
 applyStrategy(strategy = qs.strategy, portfolios = qs.strategy, mktdata = spread)
 
 tns <-getTxns(Portfolio=qs.strategy, Symbol= symbols)
-#Update portfolio, account, equity
+
+#Update w/ fulfilled strategy 
+
 updatePortf(qs.strategy)
-
 updateAcct(qs.strategy)
-
 updateEndEq(qs.strategy)
 
 chart.P2 = function (Portfolio, Symbol, Dates = NULL, ..., TA = NULL)
