@@ -2,11 +2,20 @@
 # Author: Sanjay Satish @sanjaysatish
 # Date Created: 12/14/2020
 
+#===================
+# Setup:
+#===================
+
 # Loading libraries 
 library(tidyverse)
 library(dplyr)
-library(ggplot2)
 library(quantstrat)
+library(tseries)
+library(PerformanceAnalytics)
+
+#===================
+# Getting Data:
+#===================
 
 # Loading in data via GitHub 
 # Note: Ticker data from Yahoo Finance 
@@ -37,6 +46,43 @@ chart_Series(spread)
 # Adding MA
 add_TA(EMA(Cl(spread), n=20), on=1, col="blue", lwd=1.5)
 legend(x=5, y=50, legend=c("EMA 20"),
-       fill=c("red"), bty="n")
+       fill=c("blue"), bty="n")
 
-# Creating strategy 
+#===================
+# Initializing strategy:
+#===================
+
+# Initialize strategy, portfolio, etc. 
+# .blotter holds portfolio and account objects and .strategy holds orderbook and strategy objects
+.blotter <- new.env()
+.strategy <- new.env()
+
+# Assume starting on 01/02/2020 w/ $1000 in initial equity
+qs.strategy <- 'pair.SQPYPL'
+initPortf(qs.strategy, symbols = symbols, initDate=startdate)
+
+startdate = '2020-01-02'
+startequity = 1000
+initAcct(qs.strategy, portfolios=qs.strategy, initDate=startdate,initEq=startequity)
+
+initOrders(qs.strategy,initDate=startdate)
+
+# Save 
+strategy(qs.strategy, store = TRUE)
+
+# rm.strat(pairStrat) 
+ls(.blotter)
+
+ls(.strategy) 
+
+#===================
+# Analysis & Indicators:
+#===================
+
+#===================
+# Optimization:
+#===================
+
+#===================
+# Backtesting:
+#===================
