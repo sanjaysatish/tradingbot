@@ -6,6 +6,7 @@
 # Setup:
 #===================
 
+## Note: Code was adapted and inspired by Marco Nicolas Dibo; github: @mdibo
 # Loading libraries 
 library(tidyverse)
 library(dplyr)
@@ -20,19 +21,21 @@ library(PerformanceAnalytics)
 # Loading in data via GitHub 
 # Note: Ticker data from Yahoo Finance 
 
-data.dir1 <- "https://github.com/sanjaysatish/tradingbot/blob/main/Data/PYPL.csv"
-data.dir2 <- "https://github.com/sanjaysatish/tradingbot/blob/main/Data/SQ.csv"
+#data.dir1 <- "https://github.com/sanjaysatish/tradingbot/blob/main/Data/PYPL.csv"
+#data.dir2 <- "https://github.com/sanjaysatish/tradingbot/blob/main/Data/SQ.csv"
 
 .from <- '2015-11-19'
 .to <- '2020-12-08'
 
+pypl <- 'PYPL'
+sq <- 'SQ'
 # PYPL data
-setSymbolLookup.FI(base_dir=data.dir1, Symbols='PYPL')
-getSymbols('PYPL', from=.from, to=.to)
+#setSymbolLookup.FI(base_dir=data.dir1, Symbols='PYPL')
+getSymbols(pypl, from=.from, to=.to)
 
 # SQ data
-setSymbolLookup.FI(base_dir=data.dir2, Symbols='SQ')
-getSymbols('SQ', from=.from, to=.to)
+#setSymbolLookup.FI(base_dir=data.dir2, Symbols='SQ')
+getSymbols(sq, from=.from, to=.to)
 
 # Adding spread between tickers (SQ-PYPL)
 spread <- OHLC(SQ)-OHLC(PYPL)
@@ -41,12 +44,14 @@ colnames(spread)<-c("open","high","low","close")
 symbols <- c("spread")
 stock(symbols, currency = 'USD', multiplier = 1)
 
-chart_Series(spread)
+chart <- chart_Series(spread)
 
 # Adding MA
 add_TA(EMA(Cl(spread), n=20), on=1, col="blue", lwd=1.5)
 legend(x=5, y=50, legend=c("EMA 20"),
        fill=c("blue"), bty="n")
+# View Plot
+chart 
 
 #===================
 # Initializing strategy:
@@ -58,11 +63,12 @@ legend(x=5, y=50, legend=c("EMA 20"),
 .strategy <- new.env()
 
 # Assume starting on 01/02/2020 w/ $1000 in initial equity
+startdate = '2020-01-02'
+startequity = 1000
+
 qs.strategy <- 'pair.SQPYPL'
 initPortf(qs.strategy, symbols = symbols, initDate=startdate)
 
-startdate = '2020-01-02'
-startequity = 1000
 initAcct(qs.strategy, portfolios=qs.strategy, initDate=startdate,initEq=startequity)
 
 initOrders(qs.strategy,initDate=startdate)
@@ -70,7 +76,7 @@ initOrders(qs.strategy,initDate=startdate)
 # Save 
 strategy(qs.strategy, store = TRUE)
 
-rm.strat(qs.strategy) 
+#rm.strat(pair.SQPYPL) 
 
 ls(.blotter)
 
@@ -83,42 +89,49 @@ ls(.strategy)
 # Finding Z scores
 
 # Function that calculates the ratio at close between the two tickers
-
-Ratio <- function(x) { 
-  x1 <- x[,4][1]
-  x2 <- x[,4][2]
-  ratio <- log10(Cl(x1) / Cl(x2))
-  colnames(ratio) <- 'Price.Ratio'
-  return(ratio)
+# Input: 
+Ratio <- function(tickers) { 
+    x1 <- get(tickers[1])
+    x2 <- get(tickers[2])
+    rt <- log10(Cl(x1) / Cl(x2))
+    colnames(rt) <- 'Price.Ratio'
+    rt
 }
 
 # Calculate ratio 
-PriceRatio <- Ratio(c(SQ[1],PYPL[1]))
+PriceRatio <- Ratio(c(sq[1],pypl[1]))
 
-MaRatio <- function(x){
-  
-  Mavg <- rollapply(x, N , mean)
+# Function that calculates moving average of price ratio over a 14 trading day period 
+# Input: Price Ratio as calculated by Ratio Function
+
+MaRatio <- function(priceratio){
+  nday = 14
+  Mavg <- rollapply(priceratio, nday, mean)
   colnames(Mavg) <- 'Price.Ratio.MA'
   Mavg
 }
 
+# Calculate Moving Averages and append to df
 Price.Ratio.MA <- MaRatio(PriceRatio)
 
-Price.Ratio.SD <- Sd(Price.Ratio)
+# Calculate standard deviation of ratio and append to df
+Price.Ratio.SD <- sd(PriceRatio)
 
-ZScore <- function(x){
+# Function for calculating z-scores of price ratio based on Moving Averages as Population Average
+# Inputs: Df with Ratio/MA/SD
+
+ZScore <- function(df){
+  x_i <- df$PriceRatio
+  mu <- df$Price.Ratio.MA
+  sigma <- df$Price.Ratio.SD
   
-  a1 <- x$PriceRatio
-  b1 <- x$Price.Ratio.MA
-  c1 <- x$Price.Ratio.SD
-  
-  z <- (a1-b1)/c1
+  z <- (x_i-mu)/sigma
   
   colnames(z)<- 'Z.Score'
   z
-  
 }
-# b) Augmented Dickey Fuller
+
+# Hypothesis Testing - adapted from Augmented Dickey Fuller
 
 ft2<-function(x){
   adf.test(x)$p.value
@@ -126,7 +139,7 @@ ft2<-function(x){
 
 Pval <- function(x){
   
-  Augmented.df <- rollapply(x, width = N.ADF, ft2)
+  Augmented.df <- rollapply(x, 14, ft2)
   colnames(Augmented.df) <- "P.Value"
   Augmented.df
 }
@@ -140,10 +153,15 @@ add.indicator(strategy = qs.strategy, name = "Pval", arguments =
                 list(x=quote(PriceRatio)))
 
 # Plotting Time Series of Z Score 
-Z.Score <- ZScore(x=merge(Price.Ratio,Price.Ratio.MA,Price.Ratio.SD))
-plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
+x = merge(PriceRatio,Price.Ratio.MA,Price.Ratio.SD) 
+x <- tail(x, -13)
+Z.Score <- ZScore(x)
+PlotZ <- plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
 abline(h = 2, col = 2, lwd = 3 ,lty = 2)
 abline(h = -2, col = 3, lwd = 3 ,lty = 2)
+
+# View
+PlotZ
 
 #===================
 # Optimization:
@@ -157,7 +175,7 @@ sellThresh = -buyThresh
 exitlong = 1
 exitshort = 1
 
-Before running our backtest, we have to add the signals, position limits and rules of our strategy:
+#Before running our backtest, we have to add the signals, position limits and rules of our strategy:
   
   add.signal(qs.strategy, name="sigThreshold",arguments=list(column="Z.Score", threshold=buyThresh,
                                                              relationship="lt", cross=FALSE),label="longEntryZ")
