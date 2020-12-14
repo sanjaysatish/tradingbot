@@ -13,6 +13,7 @@ library(dplyr)
 library(quantstrat)
 library(tseries)
 library(PerformanceAnalytics)
+library(IKTrading)
 library(FinancialInstrument)
 
 
@@ -157,14 +158,14 @@ add.indicator(strategy = qs.strategy, name = "Pval", arguments =
 x = merge(PriceRatio,Price.Ratio.MA,Price.Ratio.SD) 
 df <- tail(x, -13)
 Z.Score <- ZScore(df)
-PlotZ <- plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
+plot(main = "Z-Score Time Series", xlab = "Date" , ylab = "Z-Score",Z.Score, type = "l" )
 abline(h = .25, col = 2, lwd = 3 ,lty = 2)
 abline(h = -.25, col = 3, lwd = 3 ,lty = 2)
 
-PlotZ
 #===================
 # Optimization:
 #===================
+
 # Set significance level, set this to 1 if we want to disregard hypothesis testing
 alpha = 1 
 
